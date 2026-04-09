@@ -9,7 +9,8 @@ export default function FetchConvo() {
   const [detailsByType, setDetailsByType] = useState<any[]>([])
   const [members, setMembers] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
-
+  const [lastDoc, setLastDoc] = useState<any>(null)
+  const [hasMore, setHasMore] = useState(true)
   const [startDate, setStartDate] = useState(moment().subtract(1, 'days').startOf('day').toDate())
   const [endDate, setEndDate] = useState(moment().subtract(1, 'days').endOf('day').toDate())
 
@@ -33,6 +34,14 @@ export default function FetchConvo() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    async function handle() {
+      const res = await fetch('/api/webhook/message', { method: 'POST' })
+      const data = await res.json()
+      console.log(data)
+    }
+  }, [])
 
   /** FETCH MEMBERS */
   useEffect(() => {
